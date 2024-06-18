@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 50px; }
+        .container { max-width: 600px; margin: auto; padding: 50px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h2 { text-align: center; color: #be5252; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group button { width: 100%; padding: 10px; background-color: #0078d4; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .form-group button:hover { background-color: #005a9e; }
+        .message { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Survey Form</h2>
+        <form id="surveyForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <p id="message" class="message"></p>
+    </div>
+
+    <script>
+        document.getElementById('surveyForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const webhookUrl = 'https://tud365.webhook.office.com/webhookb2/27881485-6aeb-4def-acec-4f670e5b82d0@096e524d-6929-4030-8cd3-8ab42de0887b/IncomingWebhook/d787ef8dd4a14aa681734fba4da8a241/6178597a-9a33-4821-bfad-b0d87b8f06e1'; // Your Teams webhook URL
+
+            const name = document.getElementById('name').value;
+            const feedback = document.getElementById('feedback').value;
+
+            const message = {
+                text: `**New Survey Response**\n\n**Name**: ${name}\n**Feedback**: ${feedback}`
+            };
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(message)
+                });
+                if (response.ok) {
+                    document.getElementById('message').innerText = 'Thank you for your feedback!';
+                } else {
+                    document.getElementById('message').innerText = 'Error sending your feedback. Please try again later.';
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = 'Error sending your feedback. Please try again later.';
+            }
+        });
+    </script>
+</body>
+</html>
