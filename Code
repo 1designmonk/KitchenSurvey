@@ -39,7 +39,6 @@
         document.getElementById('surveyForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             const webhookUrl = 'https://tud365.webhook.office.com/webhookb2/27881485-6aeb-4def-acec-4f670e5b82d0@096e524d-6929-4030-8cd3-8ab42de0887b/IncomingWebhook/d787ef8dd4a14aa681734fba4da8a241/6178597a-9a33-4821-bfad-b0d87b8f06e1'; // Your Teams webhook URL
-
             const name = document.getElementById('name').value;
             const feedback = document.getElementById('feedback').value;
 
